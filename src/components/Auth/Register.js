@@ -19,22 +19,43 @@ class Register extends React.Component {
     passwordConfirmation: ''
   };
 
+  isFormValid = () => {
+    if (this.isFormEmpty(this.state)) {
+      //error
+    } else if (!this.isPasswordValid(this.state)){
+      //error
+    } else {
+      // form valid
+      return true;
+    }
+  };
+
+  isFormEmpty = ({username, email, password, passwordConfirmation}) => {
+
+  }
+
+  isPasswordValid = ({password, passwordConfirmation}) => {
+    
+  }
+
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value })
   };
 
   handleSubmit = event => {
-    event.preventDefault();
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(createdUser => {
-        console.log(createdUser);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }
+    if (this.isFormValid()){
+      event.preventDefault();
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(createdUser => {
+          console.log(createdUser);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    };
+  };
 
   render() {
     const { username, email, password, passwordConfirmation } = this.state;
