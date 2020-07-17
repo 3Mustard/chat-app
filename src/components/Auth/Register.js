@@ -16,12 +16,18 @@ class Register extends React.Component {
     username: '',
     email: '',
     password: '',
-    passwordConfirmation: ''
+    passwordConfirmation: '',
+    errors: []
   };
 
   isFormValid = () => {
+    let errors = [];
+    let error;
+
     if (this.isFormEmpty(this.state)) {
-      //error
+      error = { message: "Fill in all fields" };
+      this.setState({ errors: errors.concat(error) });
+      return false;
     } else if (!this.isPasswordValid(this.state)){
       //error
     } else {
@@ -31,11 +37,11 @@ class Register extends React.Component {
   };
 
   isFormEmpty = ({username, email, password, passwordConfirmation}) => {
-
+    return !username.length || !email.length || !password.length || !passwordConfirmation.length;
   }
 
   isPasswordValid = ({password, passwordConfirmation}) => {
-    
+
   }
 
   handleChange = event => {
