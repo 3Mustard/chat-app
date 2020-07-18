@@ -74,7 +74,7 @@ class Register extends React.Component {
   };
 
   render() {
-    const { username, email, password, passwordConfirmation } = this.state;
+    const { username, email, password, passwordConfirmation, errors } = this.state;
 
     return (
       <Grid className='app' textAlign='center' verticalAlign='middle'>
@@ -131,6 +131,12 @@ class Register extends React.Component {
               <Button color='orange' fluid size='large'>Submit</Button>
             </Segment>
           </Form>
+          {errors.length > 0 && (
+            <Message error>
+              <h3>Error</h3>
+              {this.displayErrors(errors)}
+            </Message>
+          )}
           <Message>
             Already a user? <Link to='/login'>Login</Link>
           </Message>
