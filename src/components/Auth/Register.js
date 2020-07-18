@@ -52,8 +52,10 @@ class Register extends React.Component {
     }
   };
 
+  displayErrors = errors => errors.map((error, i) => <p key={i}>{error.message}</p>);
+
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value })
+    this.setState({ [event.target.name]: event.target.value });
   };
 
   handleSubmit = event => {
