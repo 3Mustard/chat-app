@@ -8,7 +8,7 @@ import Register from "./components/Auth/Register";
 import registerServiceWorker from "./registerServiceWorker";
 
 import { BrowserRouter as Router, Switch, Route, withRouter } from "react-router-dom";
-
+import Spinner from './Spinner';
 import { createStore } from 'redux';
 import { Provider, connect } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
