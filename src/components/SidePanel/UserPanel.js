@@ -8,7 +8,7 @@ class UserPanel extends React.Component {
                 <Grid.Column>
                     <Grid.Row style={{ padding: '1.2em', margin: 0 }}>
                         <Header inverted floated="left" as="h2">
-                            <Icon />
+                            <Icon name="code" />
                             <Header.Content>Let's Trade</Header.Content>
                         </Header>
                     </Grid.Row>
