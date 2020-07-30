@@ -8,6 +8,7 @@ class Channels extends React.Component {
 
   state = {
     user: this.props.currentUser,
+    activeChannel: '',
     channels: [],
     channelName: '',
     channelDetails: '',
@@ -62,6 +63,7 @@ class Channels extends React.Component {
     const firstChannel = this.state.channels[0];
     if (this.state.firstLoad && this.state.channels.length > 0) {
       this.props.setCurrentChannel(firstChannel);
+      this.setActiveChannel(firstChannel)
     }
     this.setState({ firstLoad: false })
   }
@@ -78,7 +80,12 @@ class Channels extends React.Component {
   }
 
   changeChannel = channel => {
+    this.setActiveChannel(channel);
     this.props.setCurrentChannel(channel);
+  }
+
+  setActiveChannel = channel => {
+    this.setState({ activeChannel: channel.id })
   }
 
   displayChannels = channels => (
@@ -88,6 +95,7 @@ class Channels extends React.Component {
         onClick={() => this.changeChannel(channel)}
         name={channel.name}
         style={{ opacity: 0.7 }}
+        active={channel.id === this.state.activeChannel}
       >
         # {channel.name}
       </Menu.Item>
