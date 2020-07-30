@@ -66,6 +66,19 @@ class Channels extends React.Component {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  displayChannels = channels => (
+    channels.length > 0 && channels.map(channel => (
+      <Menu.Item
+        key={channel.id}
+        onClick={() => console.log(channel)}
+        name={channel.name}
+        style={{ opacity: 0.7 }}
+      >
+        # {channel.name}
+      </Menu.Item>
+    ))
+  )
+
   openModal = () => this.setState({ modal: true });
   closeModal = () => this.setState({ modal: false });
 
@@ -84,6 +97,7 @@ class Channels extends React.Component {
             ({ channels.length }) <Icon name="add" onClick={this.openModal}/>
           </Menu.Item>
           {/* Channels */}
+          {this.displayChannels(channels)}
         </Menu.Menu>
 
         <Modal basic open={modal} onClose={this.closeModal}>
