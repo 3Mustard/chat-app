@@ -10,6 +10,13 @@ class Channels extends React.Component {
     modal: false
   }
 
+  handleSubmit = event => {
+    event.preventDefault();
+    if (this.isFormValid(this.state)) {
+      console.log('channel added');
+    }
+  }
+
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   }
