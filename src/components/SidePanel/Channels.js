@@ -12,7 +12,8 @@ class Channels extends React.Component {
     channelName: '',
     channelDetails: '',
     channelsRef: firebase.database().ref('channels'),
-    modal: false
+    modal: false,
+    firstLoad: true
   };
 
   componentDidMount() {
@@ -23,7 +24,7 @@ class Channels extends React.Component {
     let loadedChannels = [];
     this.state.channelsRef.on('child_added', snap => {
       loadedChannels.push(snap.val());
-      this.setState({ channels: loadedChannels });
+      this.setState({ channels: loadedChannels }, () => this.setFirstChannel());
     });
   }
 
@@ -55,6 +56,14 @@ class Channels extends React.Component {
       .catch(err => {
         console.error(err);
       })
+  }
+
+  setFirstChannel = () => {
+    const firstChannel = this.state.channels[0];
+    if (this.state.firstLoad && this.state.channels.length > 0) {
+      this.props.setCurrentChannel(firstChannel);
+    }
+    this.setState({ firstLoad: false })
   }
 
   handleSubmit = event => {

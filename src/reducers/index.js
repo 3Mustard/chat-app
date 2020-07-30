@@ -15,7 +15,6 @@ const user_reducer = (state=initialUserState, action) => {
             }
         case actionTypes.CLEAR_USER:
             return {
-                ...state,
                 currentUser: null,
                 isLoading: false
             }
@@ -23,7 +22,6 @@ const user_reducer = (state=initialUserState, action) => {
             return state;
     }
 }
-
 
 const initialChannelState = {
     currentChannel: null
