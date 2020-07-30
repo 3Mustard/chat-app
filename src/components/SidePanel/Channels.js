@@ -24,6 +24,8 @@ class Channels extends React.Component {
   openModal = () => this.setState({ modal: true });
   closeModal = () => this.setState({ modal: false });
 
+  isFormValid = ({ channelName, channelDetails }) => channelName && channelDetails;
+
   render() {
     const { channels, modal } = this.state;
 
@@ -42,7 +44,7 @@ class Channels extends React.Component {
         <Modal basic open={modal} onClose={this.closeModal}>
           <Modal.Header>Add a Channel</Modal.Header>
           <Modal.Content>
-            <Form>
+            <Form onSubmit={this.handleSubmit}>
               <Form.Field>
                 <Input
                   fluid
@@ -64,7 +66,7 @@ class Channels extends React.Component {
           </Modal.Content>
 
           <Modal.Actions>
-            <Button color="green" inverted>
+            <Button color="green" inverted onClick={this.handleSubmit}>
               <Icon name="checkmark" /> Add
             </Button>
             <Button color="red" inverted onClick={this.closeModal}>
