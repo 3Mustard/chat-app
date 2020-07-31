@@ -1,24 +1,23 @@
-import React from 'react';
-import MessagesHeader from './MessagesHeader';
-import MessageForm from './MessageForm';
-import { Segment, Comment } from 'semantic-ui-react';
+import React from "react";
+import { Segment, Comment } from "semantic-ui-react";
+
+import MessagesHeader from "./MessagesHeader";
+import MessageForm from "./MessageForm";
 
 class Messages extends React.Component {
-    render() {
-        return (
-            <React.Fragment>
-                <MessagesHeader />
+  render() {
+    return (
+      <React.Fragment>
+        <MessagesHeader />
 
-                <Segment>
-                    <Comment.Group className="messages">
-                        {/* Messages */}
-                    </Comment.Group>
-                </Segment>
+        <Segment className="messages"> 
+          <Comment.Group >{/* Messages, the className of the segment might need to be in this group instead */}</Comment.Group>
+        </Segment>
 
-                <MessageForm />
-            </React.Fragment>
-        )
-    }
+        <MessageForm />
+      </React.Fragment>
+    );
+  }
 }
 
 export default Messages;
