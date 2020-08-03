@@ -2,12 +2,21 @@ import React from "react";
 import { Segment, Button, Input } from "semantic-ui-react";
 
 class MessageForm extends React.Component {
+  state = {
+    messages: ''
+  }
+
+  handleChange = event => {
+    this.setState({ [event.target.name]: event.target.value })
+  }
+
   render() {
     return (
       <Segment className="message__form">
         <Input
           fluid
           name="message"
+          onChange={this.handleChange}
           style={{ marginBottom: "0.7em" }}
           label={<Button icon={"add"} />}
           labelPosition="left"
