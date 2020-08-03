@@ -8,19 +8,52 @@ import MessageForm from "./MessageForm";
 class Messages extends React.Component {
   state = {
     messagesRef: firebase.database().ref('messages'),
+    messages: [],
+    messagesLoading: true,
     channel: this.props.currentChannel,
     user: this.props.currentUser
   }
 
+  componentDidMount() {
+    const { channel, user } = this.state;
+
+    if (channel && user) {
+      this.addListeners(channel.id);
+    }
+  }
+
+  addListeners = channelId => {
+    this.addMessageListener(channelId);
+  }
+
+  addMessageListener = channelId => {
+    let loadedMessages = [];
+    this.state.messagesRef.child(channelId).on('child_added', snap => {
+      loadedMessages.push(snap.val());
+      this.setState({
+        Messages: loadedMessages,
+        messagesLoading: false
+      })
+    })
+  }
+
+  displayMessages = messages => (
+    messages.length > 0 && messages.map(message => (
+      <Message />
+    ))
+  )
+
   render() {
-    const { messagesRef, channel, user } = this.state;
+    const { messagesRef, messages, channel, user } = this.state;
 
     return (
       <React.Fragment>
         <MessagesHeader />
 
         <Segment className="messages"> 
-          <Comment.Group >{/* Messages, the className of the segment might need to be in this group instead */}</Comment.Group>
+          <Comment.Group >{/* Messages, the className of the segment might need to be in this group instead */}
+            {this.displayMessages(messages)}
+          </Comment.Group>
         </Segment>
 
         <MessageForm 
