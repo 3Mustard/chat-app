@@ -4,7 +4,6 @@ import firebase from '../../firebase';
 
 import MessagesHeader from "./MessagesHeader";
 import MessageForm from "./MessageForm";
-import Channels from "../SidePanel/Channels";
 
 class Messages extends React.Component {
   state = {
