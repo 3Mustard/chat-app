@@ -32,7 +32,7 @@ class Messages extends React.Component {
     this.state.messagesRef.child(channelId).on('child_added', snap => {
       loadedMessages.push(snap.val());
       this.setState({
-        Messages: loadedMessages,
+        messages: loadedMessages,
         messagesLoading: false
       })
     })
@@ -55,8 +55,8 @@ class Messages extends React.Component {
       <React.Fragment>
         <MessagesHeader />
 
-        <Segment className="messages"> 
-          <Comment.Group >{/* Messages, the className of the segment might need to be in this group instead */}
+        <Segment> 
+          <Comment.Group className="messages">{/* Messages, the className of the segment might need to be in this group instead */}
             {this.displayMessages(messages)}
           </Comment.Group>
         </Segment>
