@@ -24,6 +24,7 @@ class MessageForm extends React.Component {
         />
         <Button.Group icon widths="2">
           <Button
+            onClick={this.sendMessage}
             color="orange"
             content="Add Reply"
             labelPosition="left"
