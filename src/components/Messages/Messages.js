@@ -4,14 +4,16 @@ import firebase from '../../firebase';
 
 import MessagesHeader from "./MessagesHeader";
 import MessageForm from "./MessageForm";
+import Channels from "../SidePanel/Channels";
 
 class Messages extends React.Component {
   state = {
-    messagesRef: firebase.database().ref('messages')
+    messagesRef: firebase.database().ref('messages'),
+    channel: this.props.currentChannel
   }
 
   render() {
-    const { messagesRef } = this.state;
+    const { messagesRef, channel } = this.state;
 
     return (
       <React.Fragment>
@@ -23,6 +25,7 @@ class Messages extends React.Component {
 
         <MessageForm 
           messagesRef={messagesRef}
+          currentChannel={channel}
         />
       </React.Fragment>
     );
