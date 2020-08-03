@@ -4,6 +4,7 @@ import firebase from '../../firebase';
 
 import MessagesHeader from "./MessagesHeader";
 import MessageForm from "./MessageForm";
+import Message from "./Message";
 
 class Messages extends React.Component {
   state = {
@@ -39,7 +40,11 @@ class Messages extends React.Component {
 
   displayMessages = messages => (
     messages.length > 0 && messages.map(message => (
-      <Message />
+      <Message 
+        key={message.timestamp}
+        message={message}
+        user={this.state.user}
+      />
     ))
   )
 
