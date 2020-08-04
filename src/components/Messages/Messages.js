@@ -55,8 +55,8 @@ class Messages extends React.Component {
       <React.Fragment>
         <MessagesHeader />
 
-        <Segment> 
-          <Comment.Group className="messages">{/* Messages, the className of the segment might need to be in this group instead */}
+        <Segment className="messages"> 
+          <Comment.Group>{/* Messages, the className of the segment might need to be in this group instead */}
             {this.displayMessages(messages)}
           </Comment.Group>
         </Segment>

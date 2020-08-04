@@ -176,7 +176,7 @@ class MessageForm extends React.Component {
             closeModal={this.closeModal}
             uploadFile={this.uploadFile}
           />
-          <ProgreeBar 
+          <ProgressBar 
             uploadState={uploadState} 
             percentUploaded={percentUploaded}
           />
