@@ -13,8 +13,10 @@ class Messages extends React.Component {
     messagesLoading: true,
     channel: this.props.currentChannel,
     user: this.props.currentUser,
-    numUniqueUsers: ''
-  }
+    numUniqueUsers: '',
+    searchTerm: '',
+    searchLoading: false
+  };
 
   componentDidMount() {
     const { channel, user } = this.state;
@@ -39,6 +41,17 @@ class Messages extends React.Component {
       this.countUniqueUsers(loadedMessages);
     });
   };
+
+  handleSearchChange = event => {
+    this.setState({
+      searchTerm: event.target.value,
+      searchLoading: true
+    }, () => this.handleSearchMessages());
+  };
+
+  handleSearchMessages = () => {
+    
+  }
 
   countUniqueUsers = messages => {
     const uniqueUsers = messages.reduce((acc, message) => {
@@ -72,6 +85,7 @@ class Messages extends React.Component {
         <MessagesHeader 
           channelName={this.displayChannelName(channel)}
           numUniqueUsers={numUniqueUsers}
+          handleSearchChange={this.handleSearchChange}
         />
 
         <Segment className="messages"> 
