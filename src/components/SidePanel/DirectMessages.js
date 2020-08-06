@@ -1,10 +1,71 @@
 import React from 'react';
+import firebase from '../../firebase';
 import { Menu, Icon } from 'semantic-ui-react';
-import { useStore } from 'react-redux';
 
 class DirectMessages extends React.Component {
   state = {
-    users: []
+    user: this.props.currentUser,
+    users: [],
+    usersRef: firebase.database().ref('users'), // my users collection 
+    connectedRef: firebase.database().ref('info/connected'), //returns info on connected users
+    presenceRef: firebase.database().ref('presence') // my presence collection
+  }
+
+  componentDidMount() {
+    if (this.state.user) {
+      this.addListeners(this.state.user.uid);
+    }
+  }
+
+  // LISTENERS
+  addListeners = currentUserUid => {
+    // UsersRef children ADDED
+    let loadedUsers = [];
+    this.usersRef.on('child_added', snap => {
+      if (currentUserUid !== snap.key) {
+        let user = snap.val();
+        user['uid'] = snap.key;
+        user['status'] = 'offline';
+        loadedUsers.push(user);
+        this.setState({ users: loadedUsers });
+      }
+    });
+
+    // ConnectedRef VALUE 
+    this.state.connectedRef.on('value', snap => {
+      if (snap.val() === true) {
+        const ref = this.state.presenceRef.child(currentUserUid);
+        ref.set(true);
+        ref.onDisconnect().remove(err => {
+          if (err !== null) {
+            console.error(err);
+          }
+        })
+      }
+    });
+
+    // PresenceRef children ADDED
+    this.state.presenceRef.on('child_added', snap => {
+      if (currentUserUid !== snap.key) {
+        this.addStatusToUser(snap.key);
+      }
+    })
+    // PresenceRef children REMOVE 
+    this.state.presenceRef.on('child_removed', snap => {
+      if (currentUserUid !== snap.key) {
+        this.addStatusToUser(snap.key, false);
+      }
+    })
+  }
+
+  addStatusToUser = (userId, connected=true) => {
+    const updatedUsers = this.state.users.reduce((acc, user) =>{
+      if (user.uid === userId) {
+        user['status'] = `${connected ? 'online' : 'offline'}`;
+      }
+      return acc.concat(user);
+    }, []);
+    this.setState({ users: updatedUsers });
   }
 
   render() {
