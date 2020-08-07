@@ -70,6 +70,17 @@ class DirectMessages extends React.Component {
 
   isUserOnline = user => user.status === 'online';
 
+  changeChannel = user => {
+    const channelId = this.getChannelId(user.uid);
+    const channelData // here
+  }
+
+  // Generates or gets a unique channel id
+  getChannelId = userId => {
+    const currentUserId = this.state.user.uid;
+    return userId < currentUserId ? `${userId}/${currentUserId}` : `${currentUserId}/${userId}`;
+  }
+
   render() {
     const { users } = this.state;
 
@@ -84,7 +95,7 @@ class DirectMessages extends React.Component {
         {users.map(user => (
           <Menu.Item
             key={user.uid}
-            onClick={() => console.log(user)}
+            onClick={() => this.changeChannel(user)}
             style={{ opacity: 0.7, fontStyle: 'italic' }}
           >
             <Icon
