@@ -25,3 +25,13 @@ export const setCurrentChannel = channel => {
         }
     }
 }
+
+// Takes in a boolean
+export const setPrivateChannel = isPrivateChannel => {
+    return {
+        type: actionTypes.SET_PRIVATE_CHANNEL,
+        payload: {
+            isPrivateChannel
+        }
+    }
+}

@@ -79,6 +79,7 @@ class DirectMessages extends React.Component {
       name: user.name
     };
     this.props.setCurrentChannel(channelData);
+    this.props.setPrivateChannel(true);
   }
 
   // Generates or gets a unique channel id
