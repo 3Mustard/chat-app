@@ -68,6 +68,8 @@ class DirectMessages extends React.Component {
     this.setState({ users: updatedUsers });
   }
 
+  isUserOnline = user => user.status === 'online';
+
   render() {
     const { users } = this.state;
 
@@ -79,6 +81,19 @@ class DirectMessages extends React.Component {
           </span>{' '}
           ({ users.length })
         </Menu.Item>
+        {users.map(user => {
+          <Menu.Item
+            key={user.uid}
+            onClick={() => console.log(user)}
+            style={{ opacity: 0.7, fontStyle: 'italic' }}
+          >
+            <Icon
+              name="circle"
+              color={this.isUserOnline(user) ? 'green' : 'red'}
+            />
+            @ {user.name}
+          </Menu.Item>
+        })}
       </Menu.Menu>
     )
   }
