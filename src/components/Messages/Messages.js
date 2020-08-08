@@ -16,7 +16,8 @@ class Messages extends React.Component {
     numUniqueUsers: '',
     searchTerm: '',
     searchLoading: false,
-    searchResults: []
+    searchResults: [],
+    privateChannel: this.props.isPrivateChannel
   };
 
   componentDidMount() {
@@ -85,10 +86,12 @@ class Messages extends React.Component {
     ))
   )
 
-  displayChannelName = channel => channel ? `#${channel.name}` : '';
+  displayChannelName = channel => {
+    return channel ? `${this.state.privateChannel ? '@' : '#'}${channel.name}` : '';
+  }
 
   render() {
-    const { messagesRef, messages, channel, user, numUniqueUsers, searchTerm, searchResults, searchLoading } = this.state;
+    const { messagesRef, messages, channel, user, numUniqueUsers, searchTerm, searchResults, searchLoading, privateChannel } = this.state;
 
     return (
       <React.Fragment>
@@ -97,6 +100,7 @@ class Messages extends React.Component {
           numUniqueUsers={numUniqueUsers}
           handleSearchChange={this.handleSearchChange}
           searchLoading={searchLoading}
+          isPrivateChannel={privateChannel}
         />
 
         <Segment className="messages"> 
@@ -112,6 +116,7 @@ class Messages extends React.Component {
           messagesRef={messagesRef}
           currentChannel={channel}
           currentUser={user}
+          isPrivateChannel={privateChannel}
         />
       </React.Fragment>
     );
