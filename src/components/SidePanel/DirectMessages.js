@@ -1,7 +1,7 @@
 import React from "react";
 import firebase from "../../firebase";
 import { connect } from 'react-redux';
-import { setCurrentChannel } from '../../actions';
+import { setCurrentChannel, setPrivateChannel } from '../../actions';
 import { Menu, Icon } from "semantic-ui-react";
 
 class DirectMessages extends React.Component {
@@ -72,6 +72,7 @@ class DirectMessages extends React.Component {
 
   isUserOnline = user => user.status === 'online';
 
+  // Change channel applies to private channels. For Change channels on public rooms see Channels.js
   changeChannel = user => {
     const channelId = this.getChannelId(user.uid);
     const channelData = {
@@ -117,4 +118,4 @@ class DirectMessages extends React.Component {
   }
 }
 
-export default connect(null, { setCurrentChannel })(DirectMessages);
+export default connect(null, { setCurrentChannel, setPrivateChannel })(DirectMessages);
