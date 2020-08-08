@@ -8,11 +8,14 @@ class Channels extends React.Component {
 
   state = {
     user: this.props.currentUser,
+    channel: null,
     activeChannel: '',
     channels: [],
     channelName: '',
     channelDetails: '',
     channelsRef: firebase.database().ref('channels'),
+    messagesRef: firebase.database().ref('messages'),
+    notifications: [],
     modal: false,
     firstLoad: true
   };
@@ -30,6 +33,15 @@ class Channels extends React.Component {
     this.state.channelsRef.on('child_added', snap => {
       loadedChannels.push(snap.val());
       this.setState({ channels: loadedChannels }, () => this.setFirstChannel());
+      this.addNotificationListeners(snap.key);
+    });
+  }
+
+  addNotificationListeners = channelId => {
+    this.state.messagesRef.child(channelId).on('value', snap => {
+      if (this.state.channel) {
+        this.handleNotifications(channelId, this.state.channel.id, this.state.notifications, snap);
+      }
     });
   }
 
@@ -91,6 +103,7 @@ class Channels extends React.Component {
     this.setActiveChannel(channel);
     this.props.setCurrentChannel(channel);
     this.props.setPrivateChannel(false);
+    this.setState({ channel })
   }
 
   setActiveChannel = channel => {
