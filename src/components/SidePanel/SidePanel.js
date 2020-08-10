@@ -1,5 +1,6 @@
 import React from 'react';
 import { Menu } from 'semantic-ui-react';
+
 import UserPanel from './UserPanel';
 import Starred from './Starred';
 import Channels from './Channels';
