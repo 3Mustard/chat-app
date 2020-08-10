@@ -121,6 +121,7 @@ class Channels extends React.Component {
     if (this.state.firstLoad && this.state.channels.length > 0) {
       this.props.setCurrentChannel(firstChannel);
       this.setActiveChannel(firstChannel)
+      this.setState({ channel: firstChannel })
     }
     this.setState({ firstLoad: false })
   }
