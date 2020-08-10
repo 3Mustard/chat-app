@@ -2,7 +2,7 @@ import React from 'react';
 import firebase from '../../firebase';
 import { connect } from 'react-redux';
 import { setCurrentChannel, setPrivateChannel } from '../../actions';
-import { Menu, Icon, Modal, Form, Input, Button } from 'semantic-ui-react';
+import { Menu, Icon, Modal, Form, Input, Button, Label } from 'semantic-ui-react';
 
 class Channels extends React.Component {
 
@@ -72,7 +72,7 @@ class Channels extends React.Component {
   }
 
   clearNotifications = () => {
-    let index = this.state.notifications.findIndex(notification => notification.id === this.state.channel.id);
+    let index = this.state.notifications.findIndex(notification => notification.id === this.state.channel.id); //maybe change channel.id to activechannel
 
     if (index !== -1) {
       let updatedNotifications = [...this.state.notifications];
@@ -138,6 +138,7 @@ class Channels extends React.Component {
 
   changeChannel = channel => {
     this.setActiveChannel(channel);
+    this.clearNotifications(); //not sure if i should call before or after setstate channel below
     this.props.setCurrentChannel(channel);
     this.props.setPrivateChannel(false);
     this.setState({ channel })
@@ -145,6 +146,17 @@ class Channels extends React.Component {
 
   setActiveChannel = channel => {
     this.setState({ activeChannel: channel.id })
+  }
+
+  getNotificationCount = channel => {
+    let count = 0;
+
+    this.state.notifications.forEach(notification => {
+      if (notification.id === channel.id) {
+        count = notification.count;
+      }
+    });
+    if (count > 0) return count;
   }
 
   displayChannels = channels => (
@@ -156,6 +168,9 @@ class Channels extends React.Component {
         style={{ opacity: 0.7 }}
         active={channel.id === this.state.activeChannel}
       >
+        {this.getNotificationCount(channel) && (
+          <Label color='red'>{this.getNotificationCount(channel)}</Label>
+        )}
         # {channel.name}
       </Menu.Item>
     ))
