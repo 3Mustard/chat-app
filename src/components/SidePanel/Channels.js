@@ -71,6 +71,17 @@ class Channels extends React.Component {
     this.setState({ notifications })
   }
 
+  clearNotifications = () => {
+    let index = this.state.notifications.findIndex(notification => notification.id === this.state.channel.id);
+
+    if (index !== -1) {
+      let updatedNotifications = [...this.state.notifications];
+      updatedNotifications[index].total = this.state.notifications[index].lastKnownTotal;
+      updatedNotifications[index].count = 0;
+      this.setState({ notifications: updatedNotifications });
+    }
+  }
+
   removeListeners = () => {
     this.state.channelsRef.off();
   }
