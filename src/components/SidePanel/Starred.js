@@ -1,10 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { setCurrentChannel, setPrivateChannel } from '../../actions';
 import { Menu, Icon } from 'semantic-ui-react';
 
 class Starred extends React.Component {
   state = {
     activeChannel: '',
     starredChannels: []
+  }
+
+  setActiveChannel = channel => {
+    this.setState({ activeChannel: channel.id })
+  }
+
+  changeChannel = channel => {
+    this.setActiveChannel(channel);
+    this.props.setCurrentChannel(channel);
+    this.props.setPrivateChannel(false);
   }
 
   displayChannels = starredChannels => (
@@ -39,4 +51,7 @@ class Starred extends React.Component {
   }
 }
 
-export default Starred;
+export default connect(
+  null,
+  { setCurrentChannel, setPrivateChannel }
+)(Starred);
