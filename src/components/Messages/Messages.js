@@ -8,17 +8,18 @@ import Message from "./Message";
 
 class Messages extends React.Component {
   state = {
+    channel: this.props.currentChannel,
+    isChannelStarred: false,
     messagesRef: firebase.database().ref('messages'),
-    privateMessagesRef: firebase.database().ref('privateMessages'),
     messages: [],
     messagesLoading: true,
-    channel: this.props.currentChannel,
-    privateChannel: this.props.isPrivateChannel,
-    user: this.props.currentUser,
     numUniqueUsers: '',
+    privateChannel: this.props.isPrivateChannel,
+    privateMessagesRef: firebase.database().ref('privateMessages'),
     searchTerm: '',
     searchLoading: false,
-    searchResults: []
+    searchResults: [],
+    user: this.props.currentUser
   };
 
   componentDidMount() {
@@ -49,6 +50,12 @@ class Messages extends React.Component {
   getMessagesRef = () => {
     const { messagesRef, privateMessagesRef, privateChannel } = this.state;
     return privateChannel ? privateMessagesRef : messagesRef;
+  }
+
+  handleStar = () => {
+    this.setState(prevState => ({
+      isChannelStarred: !prevState.isChannelStarred
+    }), () => this.starChannel());
   }
 
   handleSearchChange = event => {
