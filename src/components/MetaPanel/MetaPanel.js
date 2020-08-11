@@ -6,6 +6,15 @@ class MetaPanel extends React.Component {
     activeIndex: 0
   }
   
+  // onClick(event: SyntheticEvent, data: object)
+  setActiveIndex = (event, titleProps) => {
+      console.log('these are the titleprops in metaPanel.js', titleProps);
+      const { index } = titleProps;
+      const { activeIndex } = this.state;
+      const newIndex = activeIndex === index ? -1 : index;
+      this.setState({ activeIndex: newIndex });
+  }
+
   render() {
     const { activeIndex } = this.state;
   
