@@ -1,8 +1,19 @@
-## ABOUT/IMPORTANT
-The purpose of this app is give photocard traders a single source to find trades instead of the current method of creating seperate instagrams/twitters
+## Active Development
+This app is still activly in development as of August 2020
 
-This app is still activly in development as of July 2020
-Components from https://github.com/3Mustard/PhotoCard-trading-React-Redux-with-Firebase are also being transferred over and used.
+## Features 
+-login/auth
+-signup
+-user created channels
+-ability to favorite a channel
+-send image/text messages
+-send direct messages between users
+-notifications
+
+## Purpose
+-Learn and create 
+-Will be stripped down of many features in seperate repo for another app in need of simple dm's
 
 ## Learn More/Help/contact
 If you'd like to know more or help out please contact me at m23.cullen@gmail.com
+
