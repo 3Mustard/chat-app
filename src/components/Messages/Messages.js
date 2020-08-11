@@ -58,6 +58,14 @@ class Messages extends React.Component {
     }), () => this.starChannel());
   }
 
+  starChannel = () => {
+    if (this.state.isChannelStarred) {
+      console.log('star');
+    } else {
+      console.log('unstar');
+    }
+  }
+
   handleSearchChange = event => {
     this.setState({
       searchTerm: event.target.value,
@@ -105,7 +113,7 @@ class Messages extends React.Component {
   }
 
   render() {
-    const { messagesRef, messages, channel, user, numUniqueUsers, searchTerm, searchResults, searchLoading, privateChannel } = this.state;
+    const { channel, isChannelStarred, messagesRef, messages, numUniqueUsers, privateChannel, searchTerm, searchResults, searchLoading, user } = this.state;
 
     return (
       <React.Fragment>
@@ -115,6 +123,8 @@ class Messages extends React.Component {
           handleSearchChange={this.handleSearchChange}
           searchLoading={searchLoading}
           isPrivateChannel={privateChannel}
+          handleStar={this.handleStar}
+          isChannelStarred={isChannelStarred}
         />
 
         <Segment className="messages"> 
