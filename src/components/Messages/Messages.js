@@ -19,7 +19,8 @@ class Messages extends React.Component {
     searchTerm: '',
     searchLoading: false,
     searchResults: [],
-    user: this.props.currentUser
+    user: this.props.currentUser,
+    usersRef: firebase.database().ref('users')
   };
 
   componentDidMount() {
@@ -59,12 +60,31 @@ class Messages extends React.Component {
   }
 
   starChannel = () => {
+    // when a blank star is clicked and favorited.
     if (this.state.isChannelStarred) {
-      console.log('star');
-    } else {
-      console.log('unstar');
+      this.state.usersRef
+        .child(`${this.state.user.uid}/starred`)
+        .update({
+          [this.state.channel.id]: {
+            name: this.state.channel.name,
+            details: this.state.channel.details,
+            createdBy: {
+              name: this.state.channel.createdBy.name,
+              avatar: this.state.channel.createdBy.avatar
+            }
+          }
+        });
+    } else { // when a filled in star is clicked and unfavorited.
+      this.state.usersRef
+        .child(`${this.state.user.uid}/starred`)
+        .child(this.state.channel.id)
+        .remove(err => {
+          if (err !== null) {
+            console.error(err);
+          }
+        });
     }
-  }
+  };
 
   handleSearchChange = event => {
     this.setState({
