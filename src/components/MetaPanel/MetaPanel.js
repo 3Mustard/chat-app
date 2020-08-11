@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Accordian, Header, Icon } from 'semantic-ui-react';
+import { Segment, Accordion, Header, Icon } from 'semantic-ui-react';
 
 class MetaPanel extends React.Component {
   state = {
@@ -23,10 +23,10 @@ class MetaPanel extends React.Component {
         <Header as='h3' attached='top'>
           About # Channel
         </Header>
-        <Accordian styled attached='true'>
+        <Accordion styled attached='true'>
 
           {/* INDEX 0 */}
-          <Accordian.Title
+          <Accordion.Title
             active={activeIndex === 0}
             index={0}
             onClick={this.setActiveIndex}
@@ -34,13 +34,13 @@ class MetaPanel extends React.Component {
             <Icon name='dropdown'/>
             <Icon name='info'/>
             Channel Details
-          </Accordian.Title>
-          <Accordian.Content active={activeIndex === 0}>
+          </Accordion.Title>
+          <Accordion.Content active={activeIndex === 0}>
               details
-          </Accordian.Content>
+          </Accordion.Content>
 
           {/* INDEX 1 */}
-          <Accordian.Title
+          <Accordion.Title
             active={activeIndex === 1}
             index={1}
             onClick={this.setActiveIndex}
@@ -48,13 +48,13 @@ class MetaPanel extends React.Component {
             <Icon name='dropdown'/>
             <Icon name='user circle'/>
             Top Posters
-          </Accordian.Title>
-          <Accordian.Content active={activeIndex === 1}>
+          </Accordion.Title>
+          <Accordion.Content active={activeIndex === 1}>
             posters
-          </Accordian.Content>
+          </Accordion.Content>
 
           {/* INDEX 2 */}
-          <Accordian.Title
+          <Accordion.Title
             active={activeIndex === 2}
             index={2}
             onClick={this.setActiveIndex}
@@ -62,11 +62,11 @@ class MetaPanel extends React.Component {
             <Icon name='dropdown'/>
             <Icon name='pencil alternate'/>
             Created By
-          </Accordian.Title>
-          <Accordian.Content active={activeIndex === 2}>
+          </Accordion.Title>
+          <Accordion.Content active={activeIndex === 2}>
             creator
-          </Accordian.Content>
-        </Accordian>
+          </Accordion.Content>
+        </Accordion>
       </Segment>
     )
   }
