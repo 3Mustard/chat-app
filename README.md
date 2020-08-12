@@ -17,3 +17,5 @@ This app is still activly in development as of August 2020
 ## Learn More/Help/contact
 If you'd like to know more or help out please contact me at m23.cullen@gmail.com
 
+## Known bugs
+-Creating a new channel with 0 posts in it then clicking metapanel top posts section for that channel will display an incorrect amount of posts until one message is in the channel.
