@@ -16,7 +16,7 @@ class MetaPanel extends React.Component {
       this.setState({ activeIndex: newIndex });
   }
 
-  displayTopPosters = posts => {
+  displayTopPosters = posts => 
     Object.entries(posts) 
       .sort((a, b) => b[1] - a[1])
       .map(([key, val], i) => (
@@ -28,7 +28,6 @@ class MetaPanel extends React.Component {
           </List.Content>
         </List.Item>
       ));
-  }
 
   render() {
     const { activeIndex, privateChannel, channel } = this.state;
