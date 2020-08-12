@@ -16,6 +16,9 @@ class MetaPanel extends React.Component {
       this.setState({ activeIndex: newIndex });
   }
 
+  formatCount = num => (num > 1 || num === 0) ? `${num} posts` : `${num} post`;
+
+  // Doesn't work if displayTopPosters = posts => {}/() not sure why.
   displayTopPosters = posts => 
     Object.entries(posts) 
       .sort((a, b) => b[1] - a[1])
@@ -24,10 +27,11 @@ class MetaPanel extends React.Component {
           <Image avatar src={val.avatar} />
           <List.Content>
             <List.Header as='a'>{key}</List.Header>
-            <List.Description>{val.count} posts</List.Description>
+            <List.Description>{this.formatCount(val.count)}</List.Description>
           </List.Content>
         </List.Item>
-      ));
+      ))
+      .slice(0, 5); //SET AMOUNT OF TOP POSTERS TO DISPLAY
 
   render() {
     const { activeIndex, privateChannel, channel } = this.state;
