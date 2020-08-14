@@ -5,6 +5,7 @@ import { Button, Grid, Header, Icon, Dropdown, Image, Input, Modal } from 'seman
 class UserPanel extends React.Component {
 
     state = {
+        imagePreview: '',
         user: this.props.currentUser,
         modal: false
     }
@@ -27,6 +28,18 @@ class UserPanel extends React.Component {
             text: <span onClick={this.handleSignout}>Sign Out</span>
         }
     ];
+
+    handleChange = event => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        if (file) {
+            reader.readAsDataURL(file);
+            reader.addEventListener('load', () => {
+                this.setState({ previewImage: reader.result });
+            });
+        }
+    }
 
     handleSignout = () => {
         firebase    
@@ -64,7 +77,8 @@ class UserPanel extends React.Component {
                     <Modal basic open={modal} onClose={this.closeModal}>
                       <Modal.Header>Change Avatar</Modal.Header>
                       <Modal.Content>
-                          <Input 
+                          <Input
+                            onChange={this.handleChange}
                             fluid
                             type='file'
                             label='New Avatar'
