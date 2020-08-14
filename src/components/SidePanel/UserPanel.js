@@ -1,12 +1,16 @@
 import React from 'react';
 import firebase from '../../firebase';
-import { Grid, Header, Icon, Dropdown, Image } from 'semantic-ui-react';
+import { Grid, Header, Icon, Dropdown, Image, Input, Modal } from 'semantic-ui-react';
 
 class UserPanel extends React.Component {
 
     state = {
-        user: this.props.currentUser
+        user: this.props.currentUser,
+        modal: false
     }
+
+    openModal = () => this.setState({ modal:true });
+    closeModal = () => this.setState({ modal: false });
 
     dropDownOptions = () => [
         {
@@ -16,7 +20,7 @@ class UserPanel extends React.Component {
         },
         {
             key: "avatar",
-            text: <span>Change Avatar</span>
+            text: <span onClick={this.openModal}>Change Avatar</span>
         },
         {
             key: "signout",
@@ -32,7 +36,7 @@ class UserPanel extends React.Component {
     }
 
     render() {
-        const { user } = this.state;
+        const { user, modal } = this.state;
         const { primaryColor } = this.props;
 
         return (
@@ -55,6 +59,14 @@ class UserPanel extends React.Component {
                             />
                     </Header>
                     </Grid.Row>
+
+                    {/* Change user avatar modal */}
+                    <Modal basic open={modal} onClose={this.closeModal}>
+                      <Modal.Header>Change Avatar</Modal.Header>
+                      <Modal.Content>
+                          <Input />
+                      </Modal.Content>
+                    </Modal>
                 </Grid.Column>
             </Grid>
         )
