@@ -8,7 +8,7 @@ class UserPanel extends React.Component {
     state = {
         blob: '',
         croppedImage: '',
-        imagePreview: '',
+        previewImage: '',
         user: this.props.currentUser,
         modal: false
     }
