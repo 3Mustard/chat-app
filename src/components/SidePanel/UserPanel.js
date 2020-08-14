@@ -1,6 +1,6 @@
 import React from 'react';
 import firebase from '../../firebase';
-import { Grid, Header, Icon, Dropdown, Image, Input, Modal } from 'semantic-ui-react';
+import { Button, Grid, Header, Icon, Dropdown, Image, Input, Modal } from 'semantic-ui-react';
 
 class UserPanel extends React.Component {
 
@@ -64,8 +64,34 @@ class UserPanel extends React.Component {
                     <Modal basic open={modal} onClose={this.closeModal}>
                       <Modal.Header>Change Avatar</Modal.Header>
                       <Modal.Content>
-                          <Input />
+                          <Input 
+                            fluid
+                            type='file'
+                            label='New Avatar'
+                            name='previewImage'
+                          />
+                          <Grid centered stackable columns={2}>
+                              <Grid.Row centered>
+                                  <Grid.Column className='ui center aligned grid'>
+                                      {/* Image Preview */}
+                                  </Grid.Column>
+                                  <Grid.Column>
+                                      cropped Image Preview
+                                  </Grid.Column>
+                              </Grid.Row>
+                          </Grid>
                       </Modal.Content>
+                      <Modal.Actions>
+                          <Button color='green' inverted>
+                              <Icon name='save' /> Change Avatar 
+                          </Button>
+                          <Button color='green' inverted>
+                              <Icon name='image' /> Preview
+                          </Button>
+                          <Button color='red' inverted onClick={this.closeModal}>
+                              <Icon name='save' /> Cancel
+                          </Button>
+                      </Modal.Actions>
                     </Modal>
                 </Grid.Column>
             </Grid>
