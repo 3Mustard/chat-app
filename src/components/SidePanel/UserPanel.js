@@ -1,5 +1,6 @@
 import React from 'react';
 import firebase from '../../firebase';
+import AvatarEditor from 'react-avatar-editor';
 import { Button, Grid, Header, Icon, Dropdown, Image, Input, Modal } from 'semantic-ui-react';
 
 class UserPanel extends React.Component {
@@ -49,7 +50,7 @@ class UserPanel extends React.Component {
     }
 
     render() {
-        const { user, modal } = this.state;
+        const { user, modal, previewImage } = this.state;
         const { primaryColor } = this.props;
 
         return (
@@ -87,7 +88,15 @@ class UserPanel extends React.Component {
                           <Grid centered stackable columns={2}>
                               <Grid.Row centered>
                                   <Grid.Column className='ui center aligned grid'>
-                                      {/* Image Preview */}
+                                      {previewImage && (
+                                          <AvatarEditor 
+                                            image={previewImage}
+                                            width={120}
+                                            height={120}
+                                            border={50}
+                                            scale={1.2}
+                                          />
+                                      )}
                                   </Grid.Column>
                                   <Grid.Column>
                                       cropped Image Preview
