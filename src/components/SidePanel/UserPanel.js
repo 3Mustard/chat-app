@@ -9,8 +9,15 @@ class UserPanel extends React.Component {
         blob: '',
         croppedImage: '',
         previewImage: '',
+        uploadededCroppedImage: '',
         user: this.props.currentUser,
-        modal: false
+        modal: false,
+        storageRef: firebase.storage().ref(),
+        // alt way of getting a user
+        userRef: firebase.auth().currentUser,   
+        metadata: {
+            contentType: 'image/jpeg'
+        }
     }
 
     openModal = () => this.setState({ modal:true });
@@ -31,6 +38,20 @@ class UserPanel extends React.Component {
             text: <span onClick={this.handleSignout}>Sign Out</span>
         }
     ];
+
+    uploadCroppedImage = () => {
+        const { storageRef, userRef, blob, metadata } = this.state;
+
+        storageRef
+            .child(`avatars/user-${userRef.uid}`)
+            .put(blob, metadata)
+            .then(snap => {
+                snap.ref.getDownloadURL().then(downloadURL => {
+                    this.setState({ uploadededCroppedImage: downloadURL }, () =>
+                    this.changeAvatar()) // create changeAvatar next
+                })
+            })
+    }
 
     handleChange = event => {
         const file = event.target.files[0];
@@ -127,7 +148,7 @@ class UserPanel extends React.Component {
                           </Grid>
                       </Modal.Content>
                       <Modal.Actions>
-                          {croppedImage && (<Button color='green' inverted>
+                          {croppedImage && (<Button color='green' inverted onClick={this.uploadCroppedImage}>
                               <Icon name='save' /> Change Avatar 
                           </Button>)}
                           <Button color='green' inverted onClick={this.handleCropImage}>
