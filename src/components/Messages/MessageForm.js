@@ -31,7 +31,13 @@ class MessageForm extends React.Component {
     this.setState({ [event.target.name]: event.target.value })
   };
 
-  handleKeyDown = () => {
+  handleKeyDown = event => {
+    // Sends msg if ctril+enter
+    if (event.ctrlKey && event.keyCode === 13) {
+      this.sendMessage();
+    }
+    // Add code to check focus of cursor and if enter is predded and focus is in message box, send the msg.
+
     const { channel, message, typingRef, user } = this.state;
 
     if (message) {
