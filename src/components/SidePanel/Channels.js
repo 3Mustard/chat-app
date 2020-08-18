@@ -81,11 +81,14 @@ class Channels extends React.Component {
       updatedNotifications[index].count = 0;
       this.setState({ notifications: updatedNotifications });
     }
-  }
+  };
 
   removeListeners = () => {
     this.state.channelsRef.off();
-  }
+    this.state.channels.forEach(channel => {
+      this.state.messagesRef.child(channel.id).off();
+    })
+  };
 
   addChannel = () => {
     const { channelsRef, channelName, channelDetails, user } = this.state;
