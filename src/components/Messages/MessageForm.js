@@ -9,6 +9,7 @@ import ProgressBar from './ProgressBar';
 class MessageForm extends React.Component {
   state = {
     storageRef: firebase.storage().ref(),
+    typingRef: firebase.database().ref('typing'),
     message: '',
     channel: this.props.currentChannel,
     user: this.props.currentUser,
@@ -25,7 +26,23 @@ class MessageForm extends React.Component {
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value })
-  }
+  };
+
+  handleKeyDown = () => {
+    const { message, typingRef } = this.state;
+
+    if (message) {
+      typingRef
+        .child(channel.id)
+        .child(user.uid)
+        .set(user.displayName);
+    } else {
+      typingRef
+      .child(channel.id)
+      .child(user.uid)
+      .remove();
+    }
+  };
 
   createMessage = (fileUrl=null) => {
     const message = {
@@ -42,7 +59,7 @@ class MessageForm extends React.Component {
       message['content'] = this.state.message;
     }
     return message;
-  }
+  };
 
   sendMessage = () => {
     const { getMessagesRef } = this.props;
@@ -73,7 +90,7 @@ class MessageForm extends React.Component {
         errors: this.state.errors.concat({ message: 'Add a message' })
       })
     }
-  }
+  };
 
   getPath = () => {
     if (this.props.isPrivateChannel) {
@@ -81,7 +98,7 @@ class MessageForm extends React.Component {
     } else {
       return 'chat/public';
     }
-  }
+  };
 
   uploadFile = (file, metadata) => {
     const pathToUpload = this.state.channel.id;
@@ -138,7 +155,7 @@ class MessageForm extends React.Component {
           errors: this.state.errors.concat(err)
         })
       })
-  }
+  };
 
   render() {
     const { errors, message, loading, modal, uploadState, percentUploaded } = this.state;
@@ -149,6 +166,7 @@ class MessageForm extends React.Component {
           fluid
           name="message"
           onChange={this.handleChange}
+          onKeyDown={this.handleKeyDown}
           value={message}
           style={{ marginBottom: "0.7em" }}
           label={<Button icon={"add"} />}
@@ -190,6 +208,6 @@ class MessageForm extends React.Component {
       </Segment>
     );
   }
-}
+};
 
 export default MessageForm;
