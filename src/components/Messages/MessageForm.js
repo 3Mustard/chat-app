@@ -49,7 +49,32 @@ class MessageForm extends React.Component {
 
   handleTogglePicker = () => {
     this.setState({ emojiPicker: !this.state.emojiPicker });
-  }
+  };
+
+  handleAddEmoji = emoji => {
+    const oldMessage = this.state.message;
+    const newMessage = this.colonToUnicode(` ${oldMessage} ${emoji.colons} `);
+    this.setState({ 
+      message: newMessage, 
+      emojiPicker: false 
+    });
+  };
+
+  // Copy pasted this one to deal with emoji picker component. See handleAddEmoji function
+  colonToUnicode = message => {
+    return message.replace(/:[A-Za-z0-9_+-]+:/g, x => {
+      x = x.replace(/:/g, "");
+      let emoji = emojiIndex.emojis[x];
+      if (typeof emoji !== "undefined") {
+        let unicode = emoji.native;
+        if (typeof unicode !== "undefined") {
+          return unicode;
+        }
+      }
+      x = ":" + x + ":";
+      return x;
+    });
+  };
 
   createMessage = (fileUrl=null) => {
     const message = {
@@ -176,6 +201,7 @@ class MessageForm extends React.Component {
         {emojiPicker && (
           <Picker 
             set='apple'
+            onSelect={this.handleAddEmoji}
             className='emojipicker'
             title='Pick an emoji'
             emoji='point_up'
