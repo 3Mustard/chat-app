@@ -78,7 +78,7 @@ class Messages extends React.Component {
         this.setState({ typingUsers });
       }
     })
-
+    // USER DISCONNECTS
     this.state.connectedRef.on('value', snap => {
       if (snap.val() === true) {
         this.state.typingRef
@@ -207,8 +207,16 @@ class Messages extends React.Component {
     return channel ? `${this.state.privateChannel ? '@' : '#'}${channel.name}` : '';
   }
 
+  displayTypingUsers = users => (
+    users.length > 0 && users.map(user => (
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '0.2em' }} key={user.id}>
+        <span className='user__typing'>{user.name} is typing</span> <Typing />
+      </div>
+    ))
+  )
+
   render() {
-    const { channel, isChannelStarred, messagesRef, messages, numUniqueUsers, privateChannel, searchTerm, searchResults, searchLoading, user } = this.state;
+    const { channel, isChannelStarred, messagesRef, messages, numUniqueUsers, privateChannel, searchTerm, searchResults, searchLoading, user, typingUsers } = this.state;
 
     return (
       <React.Fragment>
@@ -228,9 +236,7 @@ class Messages extends React.Component {
               ? this.displayMessages(searchResults)
               : this.displayMessages(messages)
             }
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <span className='user__typing'>Matthew is typing</span> <Typing />
-            </div>
+            {this.displayTypingUsers(typingUsers)}
           </Comment.Group>
         </Segment>
 
