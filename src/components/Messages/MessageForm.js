@@ -58,6 +58,7 @@ class MessageForm extends React.Component {
       message: newMessage, 
       emojiPicker: false 
     });
+    setTimeout(() => this.messageInputRef.focus(), 0);
   };
 
   // Copy pasted this one to deal with emoji picker component. See handleAddEmoji function
@@ -213,8 +214,14 @@ class MessageForm extends React.Component {
           onChange={this.handleChange}
           onKeyDown={this.handleKeyDown}
           value={message}
+          ref={node => (this.messageInputRef = node)}
           style={{ marginBottom: "0.7em" }}
-          label={<Button icon={"add"} onClick={this.handleTogglePicker}/>}
+          label={
+            <Button 
+              icon={emojiPicker ? 'close' : 'add'} 
+              content={emojiPicker ? 'Close' : null}
+              onClick={this.handleTogglePicker}
+            />}
           labelPosition="left"
           className={
             errors.some(error => error.message.includes('message')) 
