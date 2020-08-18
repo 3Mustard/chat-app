@@ -9,6 +9,7 @@ import MessagesHeader from "./MessagesHeader";
 import MessageForm from "./MessageForm";
 import Message from "./Message";
 import Typing from './Typing';
+import Skeleton from './Skeleton';
 
 class Messages extends React.Component {
   state = {
@@ -223,10 +224,19 @@ class Messages extends React.Component {
         <span className='user__typing'>{user.name} is typing</span> <Typing />
       </div>
     ))
-  )
+  );
+
+  displayMessageSkeleton = loading => 
+      loading ? (
+        <React.Fragment>
+          {[...Array(10)].map((_, i) => (
+            <Skeleton key={i} />
+          ))}
+        </React.Fragment>
+      ) : null;
 
   render() {
-    const { channel, isChannelStarred, messagesRef, messages, numUniqueUsers, privateChannel, searchTerm, searchResults, searchLoading, user, typingUsers } = this.state;
+    const { channel, isChannelStarred, messagesRef, messages, numUniqueUsers, privateChannel, searchTerm, searchResults, searchLoading, user, typingUsers, messagesLoading } = this.state;
 
     return (
       <React.Fragment>
@@ -242,6 +252,7 @@ class Messages extends React.Component {
 
         <Segment className="messages"> 
           <Comment.Group>{/* Messages, the className of the segment might need to be in this group instead */}
+            {this.displayMessageSkeleton(messagesLoading)}
             {searchTerm 
               ? this.displayMessages(searchResults)
               : this.displayMessages(messages)
