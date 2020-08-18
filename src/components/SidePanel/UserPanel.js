@@ -14,7 +14,8 @@ class UserPanel extends React.Component {
         modal: false,
         storageRef: firebase.storage().ref(),
         // alt way of getting a user
-        userRef: firebase.auth().currentUser,   
+        userRef: firebase.auth().currentUser,
+        usersRef: firebase.database().ref('users'),
         metadata: {
             contentType: 'image/jpeg'
         }
@@ -48,8 +49,32 @@ class UserPanel extends React.Component {
             .then(snap => {
                 snap.ref.getDownloadURL().then(downloadURL => {
                     this.setState({ uploadededCroppedImage: downloadURL }, () =>
-                    this.changeAvatar()) // create changeAvatar next
+                    this.changeAvatar())
                 })
+            })
+    }
+
+    changeAvatar = () => {
+        this.state.userRef
+            .updateProfile({
+                photoURL: this.state.uploadededCroppedImage
+            })
+            .then(() => {
+                console.log('photoURL updated');
+                this.closeModal();
+            })
+            .catch(err => {
+                console.error(err);
+            })
+
+        this.state.usersRef
+            .child(this.state.user.uid)
+            .update({ avatar: this.state.uploadededCroppedImage })
+            .then(() => {
+                console.log('User avatar updated');
+            })
+            .catch(err => {
+                console.error(err);
             })
     }
 
