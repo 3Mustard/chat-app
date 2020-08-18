@@ -29,7 +29,7 @@ class MessageForm extends React.Component {
   };
 
   handleKeyDown = () => {
-    const { message, typingRef } = this.state;
+    const { channel, message, typingRef, user } = this.state;
 
     if (message) {
       typingRef
@@ -38,9 +38,9 @@ class MessageForm extends React.Component {
         .set(user.displayName);
     } else {
       typingRef
-      .child(channel.id)
-      .child(user.uid)
-      .remove();
+        .child(channel.id)
+        .child(user.uid)
+        .remove();
     }
   };
 
@@ -63,7 +63,7 @@ class MessageForm extends React.Component {
 
   sendMessage = () => {
     const { getMessagesRef } = this.props;
-    const { message, channel } = this.state;
+    const { message, channel, user, typingRef } = this.state;
 
     if (message) {
       this.setState({ loading: true });
@@ -76,7 +76,11 @@ class MessageForm extends React.Component {
             loading: false, 
             message: '', 
             errors: [] 
-          })
+          });
+          typingRef
+            .child(channel.id)
+            .child(user.uid)
+            .remove();
         })
         .catch(err => {
           console.error(err);
