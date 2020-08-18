@@ -12,6 +12,7 @@ import Typing from './Typing';
 
 class Messages extends React.Component {
   state = {
+    connectedRef: firebase.database().ref('.info/connected'),
     channel: this.props.currentChannel,
     isChannelStarred: false,
     messagesRef: firebase.database().ref('messages'),
@@ -23,6 +24,8 @@ class Messages extends React.Component {
     searchTerm: '',
     searchLoading: false,
     searchResults: [],
+    typingRef: firebase.database().ref('typing'),
+    typingUsers: [],
     user: this.props.currentUser,
     usersRef: firebase.database().ref('users')
   };
@@ -38,6 +41,7 @@ class Messages extends React.Component {
 
   addListeners = channelId => {
     this.addMessageListener(channelId);
+    this.addTypingListeners(channelId);
   };
 
   addMessageListener = channelId => {
@@ -53,6 +57,42 @@ class Messages extends React.Component {
       this.countUserPosts(loadedMessages);
     });
   };
+
+  addTypingListeners = channelId => {
+    let typingUsers = [];
+    // CHILD ADDED
+    this.state.typingRef.child(channelId).on('child_added', snap => {
+      if (snap.key !== this.state.user.uid) {
+        typingUsers = typingUsers.concat({
+          id: snap.key,
+          name: snap.val()
+        })
+        this.setState({ typingUsers });
+      }
+    })
+    // CHILD REMOVED
+    this.state.typingRef.child(channelId).on('child_removed', snap => {
+      const index = typingUsers.findIndex(user => user.id === snap.key);
+      if (index !== -1) {
+        typingUsers = typingUsers.filter(user => user.id !== snap.key);
+        this.setState({ typingUsers });
+      }
+    })
+
+    this.state.connectedRef.on('value', snap => {
+      if (snap.val() === true) {
+        this.state.typingRef
+          .child(channelId)
+          .child(this.state.user.uid)
+          .onDisconnect()
+          .remove(err => {
+            if (err !== null) {
+              console.error(err);
+            }
+          })
+      }
+    })
+  }
 
   addUserStarsListener = (channelId, userId) => {
     this.state.usersRef
