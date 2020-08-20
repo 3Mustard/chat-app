@@ -91,6 +91,9 @@ class Messages extends React.Component {
       this.countUniqueUsers(loadedMessages);
       this.countUserPosts(loadedMessages);
     });
+    if (loadedMessages.length === 0) {
+      this.setState({ messagesLoading: false })
+    }
     this.addToListeners(channelId, ref, 'child_added');
   };
 
