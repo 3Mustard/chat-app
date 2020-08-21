@@ -9,6 +9,9 @@ This app is still activly in development as of August 2020
 -send image/text messages
 -send direct messages between users
 -notifications
+-emoji
+-change app colors
+-upload new avatar image
 
 ## Purpose
 -Learn and create 
