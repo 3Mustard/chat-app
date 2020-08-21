@@ -1,5 +1,6 @@
 ## Active Development
-This app is still activly in development as of August 2020
+This app is still in development
+Current build hosted at https://lets-trade-a1486.web.app/
 
 ## Features 
 -login/auth
